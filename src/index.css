@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  background-color: #111827;
+  color: white;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #111827;
+  color: white;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  background-color: #111827;
+}
+
+/* Custom styles */
+.project-card {
+  @apply bg-white/5 hover:bg-white/10 transition-all duration-300 rounded-xl overflow-hidden border border-gray-700 backdrop-blur-sm;
+}
+
+.skill-item {
+  @apply bg-white/5 hover:bg-white/10 transition-all duration-200 rounded-lg p-4 flex flex-col items-center;
+}
