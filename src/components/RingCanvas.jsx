@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
+import CanvasErrorBoundary from './CanvasErrorBoundary';
+import { supportsWebGL } from '../utils/webgl';
 
 const Ring = () => {
   const ringRef = useRef();
@@ -49,20 +51,33 @@ const MovingStars = () => {
   );
 };
 
+const Starfield = () => (
+  <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#0a192f] via-[#0d1b33] to-[#111827]" />
+);
+
 const RingCanvas = () => {
+  // Never mount a WebGL canvas we can't create — a failed context blanks the page.
+  if (!supportsWebGL()) return <Starfield />;
+
   return (
     <div className="absolute inset-0 z-0">
-      <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>
-        <ambientLight intensity={0.2} />
-        <directionalLight position={[5, 5, 5]} intensity={0.5} />
-        <Ring />
-        <MovingStars />
-        <OrbitControls 
-          enableZoom={false} 
-          enablePan={false}
-          enableRotate={false}
-        />
-      </Canvas>
+      <CanvasErrorBoundary fallback={<Starfield />}>
+        <Canvas
+          camera={{ position: [0, 0, 10], fov: 45 }}
+          gl={{ powerPreference: 'default', failIfMajorPerformanceCaveat: false }}
+          dpr={[1, 2]}
+        >
+          <ambientLight intensity={0.2} />
+          <directionalLight position={[5, 5, 5]} intensity={0.5} />
+          <Ring />
+          <MovingStars />
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            enableRotate={false}
+          />
+        </Canvas>
+      </CanvasErrorBoundary>
     </div>
   );
 };

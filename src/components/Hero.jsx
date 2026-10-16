@@ -78,7 +78,7 @@ export default function Hero() {
           </div>
 
           <a
-            href="/resume.pdf"
+            href={`${import.meta.env.BASE_URL}resume.pdf`}
             download="Arjun_Singh_Resume.pdf"
             className="inline-block border border-blue-500 text-blue-500 hover:bg-blue-500/20 transition-all px-6 py-2 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.35)] hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] drop-shadow-md"
           >

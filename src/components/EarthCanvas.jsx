@@ -1,14 +1,16 @@
 import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, useTexture } from '@react-three/drei';
+import { assetUrl } from '../utils/assetUrl';
+import CanvasErrorBoundary from './CanvasErrorBoundary';
 
 function Earth() {
   const earthRef = useRef();
 
   const [colorMap, normalMap, specularMap] = useTexture([
-    '/assets/earth_daymap.jpg',
-    '/assets/earth_normal_map.jpg',
-    '/assets/earth_specular_map.jpg',
+    assetUrl('assets/earth_daymap.jpg'),
+    assetUrl('assets/earth_normal_map.jpg'),
+    assetUrl('assets/earth_specular_map.jpg'),
   ]);
 
   useFrame(() => {
@@ -40,19 +42,21 @@ const EarthCanvas = () => {
       <color attach="background" args={['#000810']} />
       <ambientLight intensity={0.4} />
       <directionalLight position={[5, 3, 5]} intensity={0.8} />
-      <Suspense fallback={null}>
-        <Earth />
-        <Stars 
-          radius={300} 
-          depth={60} 
-          count={1000} 
-          factor={7} 
-          saturation={0} 
-          fade={true}
-        />
-      </Suspense>
-      <OrbitControls 
-        enableZoom={false} 
+      <CanvasErrorBoundary>
+        <Suspense fallback={null}>
+          <Earth />
+          <Stars
+            radius={300}
+            depth={60}
+            count={1000}
+            factor={7}
+            saturation={0}
+            fade={true}
+          />
+        </Suspense>
+      </CanvasErrorBoundary>
+      <OrbitControls
+        enableZoom={false}
         autoRotate={true}
         autoRotateSpeed={0.3}
         enablePan={false}
